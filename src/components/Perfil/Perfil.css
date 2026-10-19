@@ -1,0 +1,170 @@
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
+.sobre-mi-section {
+  padding: 5rem clamp(2rem, 7vw, 6rem);
+  background-color: transparent;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.sobre-mi-container {
+  max-width: 900px;
+  width: 100%;
+}
+
+/* =========================================
+   GRID (Grilla para las 2 tarjetas)
+========================================= */
+.sobre-mi-grid {
+  display: grid;
+  /* La primera columna será ligeramente más ancha que la segunda (1.3fr
+vs 1fr) */
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+/* =========================================
+   TARJETAS (Cards)
+========================================= */
+.card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(18, 31, 47, 0.76), rgba(12, 20, 31, 0.76));
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 2.25rem;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(14px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--accent-rgb), 0.34);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.26), 0 0 24px rgba(var(--accent-rgb), 0.07);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.icon-box {
+  background-color: rgba(var(--accent-rgb), 0.12);
+  color: var(--accent-light);
+  padding: 0.8rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+font-size: 1.4rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.card-text {
+  color: var(--text-muted);
+  line-height: 1.8;
+  font-size: 1rem;
+  text-align: justify;
+}
+
+/* =========================================
+   LÍNEA DE TIEMPO (Educación)
+========================================= */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* El punto en la línea de tiempo */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -5px; /* Centra el punto sobre el borde izquierdo */
+  top: 5px;
+  width: 8px;
+  height: 8px;
+  background-color: #111a2e;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.timeline-header h4 {
+  font-size: 1.1rem;
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+.timeline-date {
+  font-size: 0.9rem;
+  color: #8b95a1;
+}
+
+/* =========================================
+   ETIQUETAS (Badges)
+========================================= */
+.badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.badge-outline {
+  border: 1px solid var(--accent);
+  color: var(--accent-light);
+  background-color: transparent;
+}
+
+.badge-solid {
+  background-color: var(--accent);
+  color: #08111a;
+}
+
+/* =========================================
+   RESPONSIVIDAD (Celulares y Tablets)
+========================================= */
+@media (max-width: 900px) {
+  .sobre-mi-grid {
+    /* En pantallas pequeñas, colapsa a 1 sola columna */
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 1.5rem; /* Reduce el padding interno en móviles */
+  }
+}
+
+@media (max-width: 600px) {
+  .sobre-mi-section {
+    padding: 4rem 1.5rem;
+  }
+}

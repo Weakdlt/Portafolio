@@ -1,0 +1,160 @@
+/* =========================================
+   CONTENEDOR PRINCIPAL (Ocupa toda la pantalla)
+========================================= */
+.hero-section {
+  min-height: min(850px, 100vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background: radial-gradient(ellipse at 50% 35%, rgba(35, 54, 76, 0.4) 0%, transparent 68%);
+  color: #ffffff;
+  padding: 5rem clamp(2rem, 7vw, 6rem);
+  position: relative;
+}
+
+.hero-content {
+  max-width: 780px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  animation: hero-arrive 0.75s ease-out both;
+}
+
+.hero-kicker {
+  margin-bottom: 1rem;
+}
+
+/* =========================================
+   ETIQUETA DE ESTADO (BADGE)
+========================================= */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(var(--accent-rgb), 0.07);
+  border: 1px solid rgba(var(--accent-rgb), 0.17);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #aab5c0;
+  margin-bottom: 2rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-light);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* =========================================
+   FOTO DE PERFIL CIRCULAR
+========================================= */
+.profile-photo-container {
+  margin-bottom: 1.15rem;
+  padding: 6px;
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  border-radius: 50%;
+  box-shadow: 0 0 48px rgba(var(--accent-rgb), 0.13);
+}
+
+.profile-photo {
+  width: 160px;
+  height: 160px;
+  object-fit: cover; /* Evita que la foto se estire si no es cuadrada */
+  border-radius: 50%; /* Hace que sea un círculo perfecto */
+  border: 3px solid rgba(var(--accent-rgb), 0.62);
+  box-shadow: 0 0 28px rgba(var(--accent-rgb), 0.24);
+}
+
+.hero-title {
+  max-width: 760px;
+  margin-bottom: 1.5rem;
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.065em;
+}
+
+.hero-name-accent {
+  color: var(--accent-light);
+}
+
+/* =========================================
+   TIPOGRAFÍA (Títulos y Descripción)
+========================================= */
+.hero-stack {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.25rem 0 1.25rem;
+}
+
+.hero-stack-label {
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(var(--accent-rgb), 0.28);
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.08);
+  color: var(--accent-light);
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.88rem;
+}
+
+.hero-stack-divider {
+  color: rgba(var(--accent-rgb), 0.7);
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.hero-description {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 0;
+  max-width: 700px;
+}
+
+@keyframes hero-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   RESPONSIVIDAD (Móviles)
+========================================= */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: min(760px, calc(100vh - 68px));
+    padding: 4rem 1.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.7rem, 12vw, 4rem);
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-stack {
+    gap: 0.5rem;
+  }
+
+  .hero-stack-label {
+    font-size: 0.8rem;
+  }
+}
