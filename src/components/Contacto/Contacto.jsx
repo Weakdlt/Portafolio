@@ -1,15 +1,17 @@
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2';
 import './Contacto.css';
 
 const Contacto = () => {
-  // Estado centralizado para el formulario (Formulario Controlado)
   const [formulario, setFormulario] = useState({
     nombre: '',
     email: '',
     mensaje: ''
   });
 
-  // Función para manejar los cambios en los inputs
+  const [cargando, setCargando] = useState(false);
+
   const manejarCambio = (e) => {
     const { name, value } = e.target;
     setFormulario({
@@ -18,24 +20,66 @@ const Contacto = () => {
     });
   };
 
-  // Función para simular el envío
-  const manejarEnvio = (e) => {
+  const manejarEnvio = async (e) => {
     e.preventDefault();
-    alert(`¡Gracias por tu mensaje, ${formulario.nombre}! Te contactaré pronto.`);
-    // Limpiamos el formulario después de enviar
-    setFormulario({ nombre: '', email: '', mensaje: '' });
+    setCargando(true);
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_si22nbr';
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_9oaxbiq';
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'WFe4iViwz8XJ39Qd8';
+
+    try {
+      const templateParams = {
+        nombre: formulario.nombre,
+        email: formulario.email,
+        mensaje: formulario.mensaje
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      Swal.fire({
+        title: '¡Mensaje Enviado!',
+        text: 'Gracias por contactarme. Te responderé a la brevedad.',
+        icon: 'success',
+        confirmButtonColor: '#00d8ff',
+        background: '#111a2e',
+        color: '#ffffff'
+      });
+
+      setFormulario({ nombre: '', email: '', mensaje: '' });
+
+    } catch (error) {
+      console.error('Error EmailJS (completo):', error);
+
+      const detalle =
+        typeof error === 'string'
+          ? error
+          : error?.text || error?.message || JSON.stringify(error) || 'sin detalle';
+
+      Swal.fire({
+        title: 'Error',
+        text: `No se pudo enviar el mensaje: ${detalle}`,
+        icon: 'error',
+        confirmButtonColor: '#00d8ff',
+        background: '#111a2e',
+        color: '#ffffff'
+      });
+    } finally {
+      setCargando(false);
+    }
   };
 
   return (
     <section id="contacto" className="contacto-section">
+      <h2 className="contacto-main-title">Trabajemos Juntos</h2>
+
       <div className="contacto-container">
-        <p className="section-kicker">04 / Contacto</p>
-        <h2 className="section-title">Trabajemos Juntos</h2>
         <div className="contacto-grid">
 
-          {/* =========================================
+          {/* =======================================
               COLUMNA IZQUIERDA: INFORMACIÓN
-          ========================================= */}
+              (Restaurada)
+          ======================================= */}
           <div className="contacto-info">
             <h3 className="info-title">Ponte en Contacto</h3>
             <p className="info-desc">
@@ -48,37 +92,38 @@ const Contacto = () => {
               {/* Ítem Email */}
               <div className="info-item">
                 <div className="info-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                     <polyline points="22,6 12,13 2,6"></polyline>
                   </svg>
                 </div>
                 <div>
                   <span className="item-label">Email</span>
-                  <p className="item-text">gbarboza.es@gmail.com</p>
+                  <p className="item-text">daniel2006leon@gmail.com</p>
                 </div>
               </div>
+
+              {/* Ítem Ubicación */}
               <div className="info-item">
                 <div className="info-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24"
-fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-strokeLinejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18
-0z"></path>
+                    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                     <circle cx="12" cy="10" r="3"></circle>
                   </svg>
                 </div>
                 <div>
                   <span className="item-label">Ubicación</span>
-                  <p className="item-text"> Lima - Perú</p>
+                  <p className="item-text">Lima - Perú</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* =========================================
+          {/* =======================================
               COLUMNA DERECHA: FORMULARIO
-          ========================================= */}
+          ======================================= */}
           <div className="contacto-form-wrapper">
             <form onSubmit={manejarEnvio} className="contacto-form">
 
@@ -92,6 +137,7 @@ strokeLinejoin="round">
                   onChange={manejarCambio}
                   placeholder="Tu nombre"
                   required
+                  disabled={cargando}
                 />
               </div>
 
@@ -105,6 +151,7 @@ strokeLinejoin="round">
                   onChange={manejarCambio}
                   placeholder="tu@email.com"
                   required
+                  disabled={cargando}
                 />
               </div>
 
@@ -115,17 +162,19 @@ strokeLinejoin="round">
                   name="mensaje"
                   value={formulario.mensaje}
                   onChange={manejarCambio}
-                  placeholder="Cuéntame sobre tu proyecto"
+                  placeholder="Cuéntame sobre tu proyecto..."
                   rows="5"
                   required
-                />
+                  disabled={cargando}
+                ></textarea>
               </div>
 
-              <button type="submit" className="submit-button">
-                Enviar mensaje
+              <button type="submit" className="btn-submit" disabled={cargando}>
+                {cargando ? 'Enviando...' : 'Enviar Mensaje'}
               </button>
             </form>
           </div>
+
         </div>
       </div>
     </section>
